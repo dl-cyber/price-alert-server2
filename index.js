@@ -1,27 +1,18 @@
-import WebSocket from 'ws';
-import admin from 'firebase-admin';
-
-admin.initializeApp({
-  credential: admin.credential.cert(JSON.parse(process.env.FIREBASE_KEY))
-});
-
-const ws = new WebSocket(
-  'wss://stream.binance.com:9443/ws/btcusdt@miniTicker'
-);
-
 ws.on('message', async (msg) => {
-  const price = JSON.parse(msg).c * 1;         // 현재가
-  const target = 110000;                       // 목표가(예시)
+  // ① 원본 메시지 확인
+  console.log('🚀 raw msg:', msg);
 
-  if (Math.abs(price - target) / target <= 0.002) {   // ±0.2 % 안이면
+  // ② 가격 파싱 및 로그
+  const price = JSON.parse(msg).c * 1;
+  console.log(`💰 BTCUSDT price: ${price}`);
+
+  // ③ 목표 도달 시 푸시 전송 로그
+  const target = 110000; // 목표가(예시)
+  if (Math.abs(price - target) / target <= 0.002) { // ±0.2% 안이면
+    console.log('🔔 price reached, sending push');
     await admin.messaging().send({
       topic: 'price_alert',
       data: { symbol: 'BTCUSDT', price: price.toString() }
     });
   }
 });
-import http from 'http';
-const PORT = process.env.PORT || 10000;
-http.createServer((req, res) => res.end('OK')).listen(PORT);
-
-
