@@ -20,5 +20,8 @@ ws.on('message', async (msg) => {
     });
   }
 });
+import http from 'http';
+const PORT = process.env.PORT || 10000;
+http.createServer((req, res) => res.end('OK')).listen(PORT);
 
 
