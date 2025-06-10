@@ -10,7 +10,7 @@ admin.initializeApp({
 
 // 2) 메인 WebSocket 연결 (1초마다 가격 데이터 스트림)
 const ws = new WebSocket(
-  'wss://stream.binance.com:9443/ws/btcusdt@miniTicker'
+  'wss://stream.binance.com/ws/btcusdt@miniTicker'
 );
 
 // 3) 메시지 수신 → 가격 로그 + 조건 만족 시 푸시 전송
