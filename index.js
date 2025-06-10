@@ -20,14 +20,5 @@ ws.on('message', async (msg) => {
     });
   }
 });
-// --- dummy HTTP server so Render detects an open port ---
-import http from 'http';
-const PORT = process.env.PORT || 10000;      // Render가 제공하는 포트
-http.createServer((req, res) => res.end('OK')).listen(PORT);
-console.log('Dummy HTTP server listening on', PORT);
-console.log('서비스 가 시작 되었습니다 🎉');
-const ws = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@miniTicker');
-ws.on('message', msg => {
-  const price = JSON.parse(msg).c;
-  console.log(`BTCUSDT price: ${price}`);
-});
+
+
