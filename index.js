@@ -20,3 +20,8 @@ ws.on('message', async (msg) => {
     });
   }
 });
+// --- dummy HTTP server so Render detects an open port ---
+import http from 'http';
+const PORT = process.env.PORT || 10000;      // Render가 제공하는 포트
+http.createServer((req, res) => res.end('OK')).listen(PORT);
+console.log('Dummy HTTP server listening on', PORT);
